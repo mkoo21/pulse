@@ -20,7 +20,7 @@ AUTH_Y = os.getenv('QDB_CLIENT_AUTH_Y', '')
 conf = "http::addr=localhost:9000;username=admin;password=quest;"
 
 MILLIS_IN_DAY = 86400000
-DAYS_BACK = 20
+DAYS_BACK = 150
 
 def send():
     now = datetime.now()
@@ -37,7 +37,7 @@ def send():
                     symbols={'topic': 'fake_event'},
                     columns={
                         "amount": weekend_bernouli(current_date),
-                        "timestamp": round(current_date.timestamp())
+                        "timestamp": int(current_date.timestamp() * 1000000000) # questdb does microseconds
                     },
                     at=TimestampNanos.now()
                 )

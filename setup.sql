@@ -3,4 +3,4 @@ CREATE TABLE 'events' (
   topic SYMBOL capacity 256 CACHE,
   amount INT,
   timestamp TIMESTAMP
-) timestamp (timestamp) PARTITION BY DAY BYPASS WAL;
+) timestamp (timestamp) PARTITION BY DAY;
