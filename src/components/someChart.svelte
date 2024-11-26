@@ -2,6 +2,7 @@
     import * as d3 from 'd3';
     import { onMount } from 'svelte';
     export let data: MyEvent[];
+    export let topic;
 
     const ROWS = 7;
     const COLS = 50;
@@ -11,13 +12,26 @@
     const ELEMENT_ID = "some-chart";
     const CONTAINER_ID = "container";
 
-    const init = () => {
+    /**
+     *
+     * @param data - should be sorted in descending order (most recent date first) and partitioned by day
+     */
+    const padToCurrentDay = (data: MyEvent[]) => {
+        const currentDay = new Date().setHours(0, 0, 0, 0); // round down current day
+        const referenceDay = new Date(data[0][0]).setHours(0, 0, 0, 0); // round down first date in data
+
+        const millisInDay = 24 * 60 * 60 * 1000;
+        const gapInDays = Math.floor((currentDay - referenceDay) / millisInDay);
+        const pad = new Array(gapInDays).fill(0);
+        return pad.concat(data);
+    }
+    const init = (data: MyEvent[]) => {
         const offset = ROWS - 1 - new Date().getDay();
         const range = d3.range(ROWS * COLS - offset);
         const colIndex = (d: number) => (COLS - 1) - Math.floor((d + offset) / ROWS);
         const rowIndex = (d: number) => (ROWS - 1) - ((d + offset) % ROWS);
         const levels = (d: number) => {
-            return data[d] && data[d][2] ? 1 : 0;
+            return data[d] && data[d][1] ? 1 : 0;
         }
 
         const svg = d3.select(`svg#${ELEMENT_ID}`);
@@ -29,10 +43,10 @@
             .attr("y", d => rowIndex(d) * (SIZE + GAP) )
             .attr("width", SIZE)
             .attr("height", SIZE)
-            .attr("fill", d => levels(d) ? 'mediumseagreen' : "aliceblue")
+            .attr("fill", d => levels(d) ? 'mediumseagreen' : "lightslategrey")
             .style("stroke", "rgba(0,0,0,0")
             .style("rx", RADIUS)
-            .attr("opacity", d => levels(d) ? 1 : 0.1)
+            .attr("opacity", d => levels(d) ? 1 : 0.3)
             .attr("stroke", "white")
             .attr("stroke-width", 1);
 
@@ -46,12 +60,14 @@
         .style("border-radius", "5px");
 
         grid.on('mouseover', (e, d) => {
-            console.log(e)
             popup.style("visibility", "visible")
                 .style("top", `${e.offsetY}px`)
                 .style("left", `${e.offsetX}px`)
                 .text(JSON.stringify(data[d]))
         })
+        grid.on("mouseout", function() {
+            popup.style("visibility", "hidden");
+        });
 
         return () => {
             d3.select(`#${CONTAINER_ID}`)
@@ -59,10 +75,14 @@
                 .remove();
         };
     }
-    onMount(init);
+    onMount(() => {
+        init(padToCurrentDay(data))
+    });
 
 </script>
 
+
 <div id={CONTAINER_ID}>
+    <h1>{topic}</h1>
     <svg id={ELEMENT_ID} width="100%" height="200" />
 </div>
