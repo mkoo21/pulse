@@ -2,8 +2,14 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-body {
-    background: radial-gradient(#000, #252525);
-    height:100vh;
-    width: 100vw;
+.dark {
+    --text-color: rgb(228, 228, 231);
+    --bg-color: rgb(39, 39, 42);
+    --close-extreme-color: black;
+}
+
+.light {
+    --text-color:rgb(33, 19, 13);
+    --bg-color: rgb(212, 212, 216);
+    --close-extreme-color: white;
 }
