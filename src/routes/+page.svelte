@@ -4,4 +4,14 @@
 
 </script>
 
-<SomeChart data={data.dataset} topic="fake_topic"/>
+<div class="chart-container">
+    <SomeChart data={data.dataset} topic="fake_topic"/>
+</div>
+
+<style>
+    .chart-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+    }
+</style>

@@ -1,6 +1,8 @@
 <script lang="ts">
     import * as d3 from 'd3';
     import { onMount } from 'svelte';
+
+    import PlusButton from '../components/plusButton.svelte';
     export let data: MyEvent[];
     export let topic;
 
@@ -9,9 +11,10 @@
     const SIZE = 20;
     const GAP = 5;
     const RADIUS = 4;
-    const ELEMENT_ID = "some-chart";
+    const ELEMENT_ID = "svg";
     const CONTAINER_ID = "container";
 
+    console.log(data)
     /**
      *
      * @param data - should be sorted in descending order (most recent date first) and partitioned by day
@@ -79,10 +82,57 @@
         init(padToCurrentDay(data))
     });
 
+    const addEvent = async () => {
+        const response = await fetch('/events', {
+            method: 'POST',
+            body: JSON.stringify({ topic }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response)
+    };
+
 </script>
 
-
-<div id={CONTAINER_ID}>
-    <h1>{topic}</h1>
-    <svg id={ELEMENT_ID} width="100%" height="200" />
+<div class="chart-container">
+    <div class="header">
+        <h1>{topic}</h1>
+        <button class="button" on:click={addEvent}><PlusButton size={25} /> Add event</button>
+    </div>
+    <svg id={ELEMENT_ID} width={`${(SIZE + GAP) * COLS}`} height="200" />
 </div>
+
+<style lang="scss">
+    .chart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding: 20px;
+    }
+    .header {
+        width: 100%;
+        display: flex;
+        gap: 30px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        h1 {
+            font-size: 2rem;
+        }
+    }
+    .button {
+        all: unset;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        font-size: 1.25rem;
+
+        cursor: pointer;
+        &:hover {
+            opacity: 50%;
+        }
+    }
+</style>
