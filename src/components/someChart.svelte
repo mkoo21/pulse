@@ -98,7 +98,7 @@
 <div class="chart-container">
     <div class="header">
         <h1>{topic}</h1>
-        <button class="button" on:click={addEvent}><PlusButton size={25} /> Add event</button>
+        <button class="button" on:click={addEvent}>Add event <PlusButton size={20} /></button>
     </div>
     <svg id={ELEMENT_ID} width={`${(SIZE + GAP) * COLS}`} height="200" />
 </div>
@@ -126,7 +126,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 10px;
+        gap: 15px;
         padding: 10px;
         font-size: 1.25rem;
 

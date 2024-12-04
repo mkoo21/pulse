@@ -17,4 +17,4 @@ export const handle: Handle = ({event, resolve}) => {
             'WWW-Authenticate': 'Basic realm="Protected"',
         },
     });
-}
+};
