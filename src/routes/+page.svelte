@@ -5,7 +5,7 @@
 </script>
 
 <div class="chart-container">
-    <SomeChart data={data.dataset} topic="fake_topic"/>
+    <SomeChart data={data.dataset} topic="fake_event"/>
 </div>
 
 <style>

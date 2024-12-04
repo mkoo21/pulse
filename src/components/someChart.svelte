@@ -14,14 +14,13 @@
     const ELEMENT_ID = "svg";
     const CONTAINER_ID = "container";
 
-    console.log(data)
     /**
      *
      * @param data - should be sorted in descending order (most recent date first) and partitioned by day
      */
     const padToCurrentDay = (data: MyEvent[]) => {
-        const currentDay = new Date().setHours(0, 0, 0, 0); // round down current day
-        const referenceDay = new Date(data[0][0]).setHours(0, 0, 0, 0); // round down first date in data
+        const currentDay = new Date().setHours(1, 0, 0, 0); // round down current day
+        const referenceDay = new Date(data[0][0]).setHours(1, 0, 0, 0); // round down first date in data
 
         const millisInDay = 24 * 60 * 60 * 1000;
         const gapInDays = Math.floor((currentDay - referenceDay) / millisInDay);
@@ -29,8 +28,8 @@
         return pad.concat(data);
     }
     const init = (data: MyEvent[]) => {
-        const offset = ROWS - 1 - new Date().getDay();
-        const range = d3.range(ROWS * COLS - offset);
+        const offset = ROWS - 1 - new Date().getDay(); // which row we start from (bottom right is index 0 on grid)
+        const range = d3.range(ROWS * COLS - offset); // number of cells
         const colIndex = (d: number) => (COLS - 1) - Math.floor((d + offset) / ROWS);
         const rowIndex = (d: number) => (ROWS - 1) - ((d + offset) % ROWS);
         const levels = (d: number) => {
@@ -90,7 +89,6 @@
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response)
     };
 
 </script>
