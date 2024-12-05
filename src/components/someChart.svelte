@@ -11,7 +11,7 @@
     const SIZE = 20;
     const GAP = 5;
     const RADIUS = 4;
-    const ELEMENT_ID = "svg";
+    const ELEMENT_ID = `svg-${topic}`;
     const CONTAINER_ID = "container";
 
     /**

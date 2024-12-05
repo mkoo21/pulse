@@ -1,12 +1,13 @@
 <script lang="ts">
     export let data;
     import SomeChart from '../components/someChart.svelte';
-
 </script>
 
-<div class="chart-container">
-    <SomeChart data={data.dataset} topic="fake_event"/>
-</div>
+{#each Object.keys(data.topics) as topic}
+    <div class="chart-container">
+        <SomeChart data={data.topics[topic]} topic={topic} />
+    </div>
+{/each}
 
 <style>
     .chart-container {

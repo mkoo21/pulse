@@ -1,0 +1,6 @@
+{
+    "authCreds": "user:pass",
+    "dbUrl":"http://localhost:9000",
+    "tablename": "events",
+    "topics": ["fake_topic", "fake_event"]
+}
